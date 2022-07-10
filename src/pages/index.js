@@ -60,6 +60,29 @@ export function Produtos() {
     const db_stock_outputs = localStorage.getItem("db_stock_outputs")
       ? JSON.parse(localStorage.getItem("db_stock_outputs"))
       : [];
+
+    const db_stock_entries = localStorage.getItem("db_stock_entries")
+      ? JSON.parse(localStorage.getItem("db_stock_entries"))
+      : [];
+
+    const hasOutputs = db_stock_outputs.filter(
+      (item) => item.product_id === id
+    ).length;
+
+    const hasEntries = db_stock_entries.filter(
+      (item) => item.product_id === id
+    ).length;
+
+    if (hasOutputs || hasEntries) {
+      alert("Produto não pode ser excluído"); //TODO: melhorar mensagem
+      return;
+    }
+
+    const newArray = listProducts.filter((prod) => prod.id !== id);
+
+    localStorage.setItem("db_products", JSON.stringify(newArray));
+
+    setListProducts(newArray);
   };
 
   return (
@@ -68,6 +91,52 @@ export function Produtos() {
 
       <Flex w="100%" my="6" maxW={1120} mx="auto" px="6" h="100vh">
         <Sidebar />
+
+        <Box w="100%">
+          <SimpleGrid minChildWidth={240} h="fit-content" spacing="6">
+            <Input
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Nome do produto"
+            />
+            <Button w="40" onClick={handleNewProduct}>
+              Cadastrar
+            </Button>
+          </SimpleGrid>
+
+          <Box overflowY="auto" height="80vh">
+            <Table mt="6">
+              <Thead>
+                <Tr>
+                  <Th fontWeight="bold" fontSize="14px">
+                    Nome
+                  </Th>
+                  <Th></Th>
+                </Tr>
+              </Thead>
+
+              <Tbody>
+                {listProducts.map((item, i) => (
+                  <Tr key={i}>
+                    <Td color="gray.500"> {item.name}</Td>
+                    <Td textAlign="end">
+                      <Button
+                        p="2"
+                        h="auto"
+                        fontSize={11}
+                        color="red.500"
+                        fontWeight="bold"
+                        onClick={() => removeProduct(item.id)}
+                      >
+                        Deletar
+                      </Button>
+                    </Td>
+                  </Tr>
+                ))}
+              </Tbody>
+            </Table>
+          </Box>
+        </Box>
       </Flex>
     </Flex>
   );
