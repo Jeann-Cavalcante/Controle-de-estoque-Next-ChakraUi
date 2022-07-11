@@ -72,9 +72,9 @@ const SidebarNav = () => {
             px="4"
             py="2"
             borderRadius={5}
-            bg={asPath === "/balance" ? "gray.200" : ""}
+            bg={asPath === "/stockOutputs" ? "gray.200" : ""}
           >
-            <Link href="/balance">
+            <Link href="/stockOutputs">
               <Text fontSize="md" fontWeight="medium" color="gray.500">
                 Saída
               </Text>
