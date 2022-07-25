@@ -3,11 +3,11 @@ import { createContext, useContext } from "react";
 
 const SidebarContext = createContext({});
 
-export const SidebarProvider = ({ children }) => {
+export const SidebarProvider = (props) => {
   const disclosure = useDisclosure();
   return (
     <SidebarContext.Provider value={disclosure}>
-      {children}
+      {props.children}
     </SidebarContext.Provider>
   );
 };
